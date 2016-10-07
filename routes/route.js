@@ -19,7 +19,7 @@ router.use(passport.session());
 //API LOGING IN user
 //Store DATA in DATABASE
 router.get('/api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
-router.get('/api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/login' }));
+router.get('/api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: 'http://localhost:3000/dashboard', failureRedirect: '/login' }));
 
 //API GET USER INFORMATION - AFTER LOGIN
 router.get('/api/profile', function(req,res,next){
