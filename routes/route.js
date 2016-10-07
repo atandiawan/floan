@@ -39,13 +39,13 @@ router.get('/api/profile/:facebookid', function(req,res,next){
 //ADD UTANG AMOUNT AND ID
 //'api/add/:user_id'
 //input: ID yang berhutang, Jumlah
-router.post('/api/add/:id', function(req,res,next){
+router.post('/api/add/', function(req,res,next){
   Models.Users.findOne({"facebook.email": req.body.email}, function(err, result){
-    let newTransaction = new Transactions.Transactions({peminjam: req.params.id, pengutang: result._id, amount: req.body.amount, status:"belumlunas"}).save(function(err){
+    let newTransaction = new Transactions.Transactions({peminjam: req.user._id, pengutang: result._id, amount: req.body.amount, status:"belumlunas"}).save(function(err){
       if (err){
         console.log(err)
       }
-      res.redirect('/api/tagihan')
+      res.redirect('/dashboard')
     })
   })
 })
@@ -53,7 +53,7 @@ router.post('/api/add/:id', function(req,res,next){
 //API GET TRANSACTION ORANG YANG DIA HUTANGI
 let tagihan = function(requser,callback){
   console.log("sini", requser)
-  Transactions.Transactions.find({peminjam: requser._id}, function(err, result){
+  Transactions.Transactions.find({peminjam: requser._id}).populate('peminjam').populate('pengutang').exec(function(err,result){
     if(err){
       console.log(err)
     }
@@ -63,7 +63,7 @@ let tagihan = function(requser,callback){
 
 //API GET TRANSACTION ORANG YANG HUTANG PADA DIA
 let masukan =  function(requser, callback){
-  Transactions.Transactions.find({pengutang: requser._id}, function(err, result){
+  Transactions.Transactions.find({pengutang: requser._id}).populate('peminjam').populate('pengutang').exec(function(err,result){
     if(err){
       console.log(err)
     }
@@ -78,7 +78,7 @@ router.post('/api/lunasi/:transaction_id', function(req,res,next){
     if (err){
       console.log(err)
     }
-    res.redirect('/api/tagihan')
+    res.redirect('/dashboard')
   })
 })
 
@@ -88,6 +88,7 @@ router.post('/api/approve/:transaction_id', function(req,res,next){
     if (err){
       console.log(err)
     }
+    res.redirect('/dashboard')
   })
   // Transactions.Transactions.remove({_id:req.params.transaction_id}, function(err){
   //   if (err){
@@ -113,8 +114,10 @@ router.get('/dashboard', function(req,res){
   setTimeout(function(){
     tagihan(req.user, function(hasilpertama){
       let hasilTagihan = hasilpertama
+      console.log('hasilTagihan', hasilTagihan)
       masukan(req.user, function(hasilkedua){
         let hasilMenagih = hasilkedua
+        console.log('hasilMenagih', hasilMenagih)
         res.render('pages/dashboard',{layout:"dashboard-layout", user: req.user, tagihan: hasilTagihan, menagih: hasilMenagih})
       })
     })
@@ -125,9 +128,13 @@ router.get('/', function(req, res) {
   res.render('pages/home')
 })
 
-router.post('api/logout', function(req,res){
+router.get('/add', function(req,res){
+  res.render('pages/add', {layout:"dashboard-layout"})
+})
+
+router.get('/api/logout', function(req,res){
   req.logout()
-  res.redirect('/login')
+  res.redirect('/')
 })
 
 

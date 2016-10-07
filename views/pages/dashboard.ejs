@@ -17,8 +17,8 @@
             <div class="container">
                 <div class="col-md-8 col-md-offset-2" style="text-align: center">
                     <div class="debt-list">
-                        <h2>My Debts List</h2>
-                        <a href="#" class="btn btn-md btn-warning">Add Debt</a>
+                        <h2>Orang-orang yang hutang sama saya</h2>
+                        <a href="/add" class="btn btn-md btn-warning">Add Debt</a>
                         <table class="table table-bordered" style="margin-top: 20px">
                             <thead>
                                 <tr>
@@ -27,17 +27,28 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Andrew</td>
-                                    <td>Rp. 100000</th>
-                                        <td>
-                                            <a href="#" class="btn btn-sm btn-primary">Pay</a> &nbsp;
-                                        </td>
-                                </tr>
-                            </tbody>
+                            <% for (let i in tagihan){ %>
+                              <tbody>
+                                  <tr>
+                                      <td><%= tagihan[i].pengutang.facebook.firstname %></td>
+                                      <td><%= tagihan[i].amount %></th>
+                                          <td>
+                                            <% if(tagihan[i].status == "belumlunas"){ %>
+                                              <form action="/api/lunasi/<%= tagihan[i]._id %>" method="POST">
+                                                <input type = "submit" value="Pay" class="btn btn-sm btn-primary">
+                                              </form>
+                                            <% } else if (tagihan[i].status == "lunas") { %>
+                                              <i class = "fa fa-check">Lunas</i>
+                                            <% } else if (tagihan[i].status == "requestsent") { %>
+                                              <i class = "fa fa-check">Request Sent</i>
+                                            <% } %>
+                                          </td>
+                                  </tr>
+                              </tbody>
+                            <% } %>
+
                         </table>
-                        <h2>My Debitors List</h2>
+                        <h2>Daftar Orang-orang yang saya hutangi</h2>
                         <table class="table table-bordered" style="margin-top: 20px">
                             <thead>
                                 <tr>
@@ -46,18 +57,29 @@
                                     <th>Action</th>
                                 </tr>
                             </thead>
+                            <% for (let i in menagih){ %>
                             <tbody>
                                 <tr>
                                     <td>
-                                        Sahbana
+                                        <%= menagih[i].peminjam.facebook.firstname %>
                                     </td>
-                                    <td>Rp. 200000</td>
+                                    <td><%= menagih[i].amount %></td>
                                     <td>
-                                        <a href="#" class="btn btn-sm btn-primary">Confirm Payment</a> &nbsp;
+                                      <% if(menagih[i].status == "requestsent"){ %>
+                                        <form action="/api/approve/<%= menagih[i]._id %>" method="POST">
+                                          <input type = "submit" value="Confirm Payment" class="btn btn-sm btn-primary">
+                                        </form>
+                                      <% } else if(menagih[i].status =="lunas") { %>
+                                        <i class = "fa fa-check">Lunas</i>
+                                      <% } else if(menagih[i].status =="belumlunas") { %>
+                                        <i class = "fa fa-check">Masih Hutang</i>
+                                      <% } %>%>
                                     </td>
                                 </tr>
                             </tbody>
+                            <% } %>
                         </table>
+
                     </div>
                 </div>
             </div>
