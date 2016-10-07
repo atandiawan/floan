@@ -19,11 +19,11 @@ router.use(passport.session());
 //=======================================================================================================
 //API LOGING IN user
 //Store DATA in DATABASE
-router.post('api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
-router.get('api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/login' }));
+router.post('/api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
+router.get('/api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/login' }));
 
 //API GET USER INFORMATION - AFTER LOGIN
-router.get('api/profile', function(req,res,next){
+router.get('/api/profile', function(req,res,next){
   res.json(req.user)
 })
 
@@ -100,7 +100,6 @@ router.post('/api/delete/:transaction_id', function(req,res,next){
 })
 
 //OBSOLETE
-
 router.get('/dashboard', function(req,res){
   res.render('dashboard.ejs', {user: req.user})
   // res.json(req.user)
