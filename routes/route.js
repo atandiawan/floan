@@ -19,12 +19,11 @@ router.use(passport.session());
 //=======================================================================================================
 //API LOGING IN user
 //Store DATA in DATABASE
-//'/api/login'
-router.post('/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
-router.get('/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/login' }));
+router.post('api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
+router.get('api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/login' }));
 
 //API GET USER INFORMATION - AFTER LOGIN
-router.get('/profile', function(req,res,next){
+router.get('api/profile', function(req,res,next){
   res.json(req.user)
 })
 
@@ -99,26 +98,19 @@ router.post('/api/delete/:transaction_id', function(req,res,next){
     res.redirect('/api/tagihan')
   })
 })
+
 //OBSOLETE
-//GET ALL USERS
 
 router.get('/dashboard', function(req,res){
   res.render('dashboard.ejs', {user: req.user})
   // res.json(req.user)
 })
 
-router.get('/', function(req, res) {
-  mongoose.model('users').find(function(err, result) {
-    res.send(result)
-  })
-})
-
 router.get('/login', function(req, res) {
   res.render('login.ejs')
 })
 
-
-router.post('/logout', function(req,res){
+router.post('api/logout', function(req,res){
   req.logout()
   res.redirect('/login')
 })

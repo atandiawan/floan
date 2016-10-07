@@ -1,9 +1,9 @@
 =======================================================================================================
 API LOGGING-IN
-Post('/facebooklogin')
+Post('api/facebooklogin')
 
 API GET USER INFORMATION (YANG SEDANG LOGIN) - CUMA BISA DIACCESS SETELAH LOGIN
-Get ('/profile')
+Get ('api/profile')
 
 API ADD TRANSACTION (INPUT: EMAIL YANG MENGHUTANG KE USER, AMOUNT)
 POST ('api/add/:user_id')
@@ -24,5 +24,5 @@ API DELETE TRANSACTION DATA
 POST ('/api/delete/:transaction_id')
 
 API LOGOUT
-POST ('/logout')
+POST ('/api/logout')
 =========================================================================================================
