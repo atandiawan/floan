@@ -5,7 +5,12 @@ let routes = require('./routes/route.js')
 let passport = require('passport')
 let session = require('express-session')
 let cors = require('cors')
+let expressLayouts = require('express-ejs-layouts')
+app.set('view engine', 'ejs');
+app.use(express.static('public'))
+app.use('/public',express.static('public'));
 
+app.use(expressLayouts)
 app.use(cors())
 
 app.use(session({

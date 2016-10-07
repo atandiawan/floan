@@ -6,6 +6,23 @@ router.get('/', function(req,res,next){
   res.render('login.ejs')
 })
 
+router.get('/loginfacebook', function(req,res,next){
+  http.get({
+    host: "localhost",
+    port: "3000",
+    path: "/api/facebooklogin"
+  }, function(response){
+    let hasil = ""
+    response.on('data', function(d) {
+      hasil += d
+    });
+    response.on('end', function() {
+      let hasilJSON = JSON.parse(hasil)
+      res.redirect('/dashboard')
+    })
+  })
+})
+
 router.get('/dashboard', function(req,res,next){
   res.send('helo')
 })

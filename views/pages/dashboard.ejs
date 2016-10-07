@@ -1,0 +1,70 @@
+<main id="site-main">
+    <div class="container">
+        <div class="row">
+            <div class="container">
+                <div class="col-md-2 col-md-offset-4"><img src="<%= user.facebook.photo %>" style="width: 170px; height: 170px;" alt="profile picture" class="img-circle"></div>
+                <div class="col-md-2">
+                    <p>FIRSTNAME</p>
+                    <h4><%= user.facebook.firstname %></h4>
+                    <p>LASTNAME</p>
+                    <h4><%= user.facebook.lastname %></h4>
+                    <p>EMAIL ADDRESS</p>
+                    <h4><%= user.facebook.email %></h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container">
+                <div class="col-md-8 col-md-offset-2" style="text-align: center">
+                    <div class="debt-list">
+                        <h2>My Debts List</h2>
+                        <a href="#" class="btn btn-md btn-warning">Add Debt</a>
+                        <table class="table table-bordered" style="margin-top: 20px">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Andrew</td>
+                                    <td>Rp. 100000</th>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-primary">Pay</a> &nbsp;
+                                        </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h2>My Debitors List</h2>
+                        <table class="table table-bordered" style="margin-top: 20px">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Amount</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        Sahbana
+                                    </td>
+                                    <td>Rp. 200000</td>
+                                    <td>
+                                        <a href="#" class="btn btn-sm btn-primary">Confirm Payment</a> &nbsp;
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+    <footer>
+        Copyright &copy; 2016
+    </footer>

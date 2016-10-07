@@ -8,6 +8,8 @@ let bodyParser = require('body-parser')
 let secret = require('../config/auth.js')
 let expressValidator = require('express-validator')
 let passport = require('../config/passport.js')
+let http = require('http')
+let session = require('express-session')
 
 router.use(bodyParser.urlencoded({ extended: true }))
 router.use(expressValidator())
@@ -19,11 +21,18 @@ router.use(passport.session());
 //API LOGING IN user
 //Store DATA in DATABASE
 router.get('/api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
-router.get('/api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: 'http://localhost:3000/dashboard', failureRedirect: '/login' }));
+router.get('/api/facebooklogin/callback', function(req,res,next){
+  passport.authenticate('facebook')(req, res, function(){
+    req.session.user = req.user
+    res.redirect('/dashboard')
+  });
+});
 
 //API GET USER INFORMATION - AFTER LOGIN
-router.get('/api/profile', function(req,res,next){
-  res.json(req.user)
+router.get('/api/profile/:facebookid', function(req,res,next){
+  Models.Users.findOne({"facebook.id": req.params.facebookid }, function(err, result){
+    res.json()
+  })
 })
 
 //API ADD TRANSACTION
@@ -42,24 +51,25 @@ router.post('/api/add/:id', function(req,res,next){
 })
 
 //API GET TRANSACTION ORANG YANG DIA HUTANGI
-router.get('/api/tagihan', function(req,res,next){
-  Transactions.Transactions.find({peminjam: req.user._id}, function(err, result){
+let tagihan = function(requser,callback){
+  console.log("sini", requser)
+  Transactions.Transactions.find({peminjam: requser._id}, function(err, result){
     if(err){
       console.log(err)
     }
-    res.json(result)
+    callback(result)
   })
-})
+}
 
 //API GET TRANSACTION ORANG YANG HUTANG PADA DIA
-router.get('/api/masukan', function(req,res,next){
-  Transactions.Transactions.find({pengutang: req.user._id}, function(err, result){
+let masukan =  function(requser, callback){
+  Transactions.Transactions.find({pengutang: requser._id}, function(err, result){
     if(err){
       console.log(err)
     }
-    res.json(result)
+    callback(result)
   })
-})
+}
 
 //API LUNASI TRANSACTION
 //'api/lunasi/:transaction_id' --> kirim request ke si yang dihutangin
@@ -100,18 +110,26 @@ router.post('/api/delete/:transaction_id', function(req,res,next){
 
 //OBSOLETE
 router.get('/dashboard', function(req,res){
-  res.render('dashboard.ejs', {user: req.user})
-  // res.json(req.user)
+  setTimeout(function(){
+    tagihan(req.user, function(hasilpertama){
+      let hasilTagihan = hasilpertama
+      masukan(req.user, function(hasilkedua){
+        let hasilMenagih = hasilkedua
+        res.render('pages/dashboard',{layout:"dashboard-layout", user: req.user, tagihan: hasilTagihan, menagih: hasilMenagih})
+      })
+    })
+  }, 3000);
 })
 
-router.get('/login', function(req, res) {
-  res.render('login.ejs')
+router.get('/', function(req, res) {
+  res.render('pages/home')
 })
 
 router.post('api/logout', function(req,res){
   req.logout()
   res.redirect('/login')
 })
+
 
 
 module.exports = router

@@ -1,0 +1,45 @@
+footer {
+    text-align: center;
+    padding: 5px;
+    font-size: 90%;
+    background: #091e35;
+    color: #e4e4e4;
+    bottom: 0;
+    width: 100%;
+}
+
+body{
+	background: #131b24;
+	font-family: 'Lato', sans-serif;
+	color: white;
+}
+
+#site-header .navbar {
+    border-radius: 0;
+    border: none;
+    margin: 0;
+    background: #0b2541;
+    padding: 0px;
+}
+
+#site-main {
+    padding: 20px;
+}
+
+.container {
+	padding: 10px;
+	width: 100%;
+}
+
+td {
+	bgcolor: #000;
+}
+
+.btn {
+	background-color: transparent !important;
+}
+
+p {
+	color: #7C7C7C;
+	font-size: 10px;
+}
