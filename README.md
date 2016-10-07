@@ -1,28 +1,15 @@
-=======================================================================================================
-API LOGGING-IN
-Post('api/facebooklogin')
+# Floan
 
-API GET USER INFORMATION (YANG SEDANG LOGIN) - CUMA BISA DIACCESS SETELAH LOGIN
-Get ('api/profile')
+## API
 
-API ADD TRANSACTION (INPUT: EMAIL YANG MENGHUTANG KE USER, AMOUNT)
-POST ('api/add/:user_id')
-
-API GET TRANSACTION ORANG YANG USER HUTANGI - CUMA BISA DIACCESS SETELAH LOGIN
-Get ('/api/tagihan')
-
-API GET TRANSACTION ORANG YANG HUTANG PADA USER - CUMA BISA DIACCESSS SETELAH LOGIN
-Get('/api/masukan')
-
-API MENGIRIM REQUEST LUNASI TRANSACTION
-Get ('/api/lunasi/:transaction_id')
-
-API APPROVE LUNASKAN TRANSACTION
-POST ('/api/approve/:transaction_id')
-
-API DELETE TRANSACTION DATA
-POST ('/api/delete/:transaction_id')
-
-API LOGOUT
-POST ('/api/logout')
-=========================================================================================================
+| HTTP | API | Description
+|------|-----|-------------
+| POST | api/facebooklogin | API LOGGING-IN
+| GET  | api/profile | API GET USER INFORMATION YANG SEDANG LOGIN - CUMA BISA DIACCESS SETELAH LOGIN
+| POST | api/add/:user_id | API ADD TRANSACTION INPUT: EMAIL YANG MENGHUTANG KE USER, AMOUNT
+| GET | /api/tagihan | API GET TRANSACTION ORANG YANG USER HUTANGI - CUMA BISA DIACCESS SETELAH LOGIN
+| GET | /api/masukan | API GET TRANSACTION ORANG YANG HUTANG PADA USER - CUMA BISA DIACCESSS SETELAH LOGIN
+| GET | /api/lunasi/:transaction_id | API MENGIRIM REQUEST LUNASI TRANSACTION
+| POST | /api/approve/:transaction_id | API APPROVE LUNASKAN TRANSACTION
+| POST | /api/delete/:transaction_id | API DELETE TRANSACTION DATA
+| POST | /api/logout | API LOGOUT
