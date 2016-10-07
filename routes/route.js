@@ -15,11 +15,10 @@ router.use(expressValidator())
 router.use(passport.initialize());
 router.use(passport.session());
 
-
 //=======================================================================================================
 //API LOGING IN user
 //Store DATA in DATABASE
-router.post('/api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
+router.get('/api/facebooklogin', passport.authenticate('facebook', {scope: ['email']}))
 router.get('/api/facebooklogin/callback', passport.authenticate('facebook', { successRedirect: '/dashboard', failureRedirect: '/login' }));
 
 //API GET USER INFORMATION - AFTER LOGIN
